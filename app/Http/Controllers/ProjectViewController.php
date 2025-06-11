@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class ProjectViewController extends Controller
 {
     public function list(Project $project)
     {
+        // Vérifier si l'utilisateur a accès au projet
+        if (!Auth::user()->can('view', $project)) {
+            abort(403, 'Unauthorized action.');
+        }
         $tasks = $project->tasks()->with('column', 'category', 'creator', 'groups', 'users')->get();
         //($tasks);
         $categories = $project->categories()->get();
@@ -19,6 +23,9 @@ class ProjectViewController extends Controller
 
     public function kanban(Project $project)
     {
+        if (!Auth::user()->can('view', $project)) {
+            abort(403, 'Unauthorized action.');
+        }
         // Tu peux charger ici les colonnes et tâches si besoin
         $columns = $project->columns()->with('tasks')->get();
         $categories = $project->categories()->get();
@@ -30,6 +37,9 @@ class ProjectViewController extends Controller
 
     public function calendar(Request $request, Project $project)
     {
+        if (!Auth::user()->can('view', $project)) {
+            abort(403, 'Unauthorized action.');
+        }
         $months = [
             ["name"=>"January","days"=>31],
             ["name"=>"February","days"=>28],

@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
     Route::get('/projects/{project}/categories', [CategoryController::class, 'index'])->name('projects.categories.index');
     Route::get('/projects/{project}/users', [ProjectUserController::class, 'index'])->name('projects.users.index');
+    Route::delete('/projects/{project}/users/{user}/delete', [ProjectUserController::class, 'destroy'])->name('projects.users.destroy');
     
     Route::post('/projects/{project}/inviteUser', [ProjectUserController::class, 'inviteUserToProject'])->name('projects.users.invite');
     

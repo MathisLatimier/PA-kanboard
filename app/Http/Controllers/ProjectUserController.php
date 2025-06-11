@@ -24,9 +24,9 @@ class ProjectUserController extends Controller
     public function inviteUserToProject(Request $request, Project $project) {
 
         // Valider la requête
-        $request->validate([
-            'email' => 'required|email|exists:users,email',
-        ]);
+        // $request->validate([
+        //     'email' => 'required|email|exists:users,email',
+        // ]);
         // Vérifier si l'utilisateur est déjà membre du projet
         $user = User::where('email', $request->email)->first();
         if ($project->users()->where('user_id', $user->id)->exists()) {
@@ -50,6 +50,14 @@ class ProjectUserController extends Controller
         Mail::to($request->email)->send(new ProjectInvitationMail($project, $url));
 
         return back()->with('success', 'Invitation envoyée avec succès !');
+    }
+
+    function destroy(Project $project, User $user) {
+
+        // Supprimer l'utilisateur du projet
+        $project->users()->detach($user->id);
+
+        return back()->with('success', 'Utilisateur supprimé du projet avec succès.');
     }
     
 }
