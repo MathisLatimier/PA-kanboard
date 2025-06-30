@@ -28,7 +28,6 @@
                             <p>Priorité: {{$task->priority}}</p>
                         </li>
                         <div id="modal-edit-task-{{ $task->id }}" class="modal hidden fixed inset-0 z-50 items-center justify-center bg-gray-900 bg-opacity-50">
-                            <button type="button" class="modal-close absolute top-2 right-2 text-white bg-gray-800 rounded-full w-8 h-8 flex items-center justify-center z-10" title="Fermer">&times;</button>
                             <x-projects.task-edit-popup
                                 :project="$project"
                                 :task="$task"
